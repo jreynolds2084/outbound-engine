@@ -1,0 +1,27 @@
+{
+  "name": "outbound-engine",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "description": "The core engine of Outbound Beast: multi-tenant sequencing, approve-before-send, Gmail / Microsoft Graph / Resend delivery, and bounce and reply classification.",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@trpc/server": "^11.6.0",
+    "drizzle-orm": "^0.44.5",
+    "googleapis": "^173.0.0",
+    "jose": "6.1.0",
+    "mysql2": "^3.15.0",
+    "resend": "^6.12.4",
+    "yaml": "^2.9.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.0",
+    "typescript": "5.9.3",
+    "vitest": "^2.1.4"
+  }
+}
