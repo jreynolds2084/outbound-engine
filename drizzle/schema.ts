@@ -378,6 +378,29 @@ export const tenants = mysqlTable("tenants", {
    * The replyAgent.ts handler checks this before sending any auto-reply.
    */
   autoReplyEnabled: boolean("autoReplyEnabled").default(false).notNull(),
+  /**
+   * Volume policy for this tenant: daily outreach ceiling, monthly new-contact
+   * ceiling, and the ramp schedule a new sending configuration builds through.
+   * Shape: see `sendPolicySchema` in server/sendGovernor.ts.
+   *
+   * NULL means ungoverned, and is the deliberate default so this column's
+   * addition changes nothing for any existing row. Callers must not substitute
+   * a default ceiling for NULL — `reporting.ts` surfaces ungoverned tenants
+   * instead, so a missing policy is visible rather than silently assumed.
+   */
+  sendPolicyJson: text("sendPolicyJson"),
+  /**
+   * Go-live: the first business day approved outreach was released from this
+   * tenant's own domain.
+   *
+   * Two jobs. It anchors the deliverability ramp in server/sendGovernor.ts, and
+   * it is the commercial clock a service agreement usually hangs its term,
+   * renewal notice and billing start on — none of which can be computed from
+   * `createdAt`, since a tenant exists for the whole of implementation before
+   * anything sends. NULL means not yet live, and a NULL here means the ramp is
+   * not tracked rather than that the ramp restarts.
+   */
+  goLiveAt: timestamp("goLiveAt"),
   /** Whether the customer has completed the onboarding wizard */
   onboardingCompleted: boolean("onboardingCompleted").default(false).notNull(),
   /** Raw wizard answers stored as JSON while onboarding is in progress */
